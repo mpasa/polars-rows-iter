@@ -1,5 +1,12 @@
 [workspace]
-members = ["polars-row-iter"]
+resolver = "2"
+members = ["polars-rows-iter", "polars-rows-iter-derive"]
 
 [workspace.dependencies]
 polars = "0.44.2"
+
+[workspace.package]
+version = "0.2.0"
+edition = "2021"
+license = "MIT"
+repository = "https://github.com/letkemann/polars-row-iter"
