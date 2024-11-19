@@ -1,27 +1,30 @@
 use super::*;
 use iter_from_column::IterFromColumn;
 use polars::prelude::*;
-use value_functions::*;
 
-impl<'a> IterFromColumn<'a> for &'a str {
+impl<'a> IterFromColumn<'a, &'a str> for &'a str {
     fn create_iter(
         dataframe: &'a DataFrame,
         column_name: &'a str,
-    ) -> PolarsResult<Box<dyn Iterator<Item = PolarsResult<Self>> + 'a>> {
-        let iter = create_iter(dataframe, column_name)?;
-        let iter = Box::new(iter.map(mandatory_value));
-        Ok(iter)
+    ) -> PolarsResult<Box<dyn Iterator<Item = Option<&'a str>> + 'a>> {
+        create_iter(dataframe, column_name)
+    }
+
+    #[inline]
+    fn get_value(polars_value: Option<&'a str>, column_name: &'a str) -> PolarsResult<Self>
+    where
+        Self: Sized,
+    {
+        polars_value.ok_or_else(|| polars::prelude::polars_err!(SchemaMismatch: "Found unexpected None/null value in column {column_name} with mandatory values!"))
     }
 }
 
-impl<'a> IterFromColumn<'a> for Option<&'a str> {
+impl<'a> IterFromColumn<'a, &'a str> for Option<&'a str> {
     fn create_iter(
         dataframe: &'a DataFrame,
         column_name: &'a str,
-    ) -> PolarsResult<Box<dyn Iterator<Item = PolarsResult<Self>> + 'a>> {
-        let iter = create_iter(dataframe, column_name)?;
-        let iter = Box::new(iter.map(optional_value));
-        Ok(iter)
+    ) -> PolarsResult<Box<dyn Iterator<Item = Option<&'a str>> + 'a>> {
+        create_iter(dataframe, column_name)
     }
 }
 
