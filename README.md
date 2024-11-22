@@ -47,9 +47,6 @@ fn main() {
 
 ```
 
-### Performance
-
-
 
 ### Todos
 - Document how to extend for custom types
