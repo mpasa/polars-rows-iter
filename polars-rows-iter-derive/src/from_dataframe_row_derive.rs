@@ -122,7 +122,7 @@ fn create_builder_struct(ctx: &Context) -> proc_macro2::TokenStream {
     let builder_ident = &ctx.builder_struct_ident;
 
     quote! {
-        struct #builder_ident<'a> {
+        pub struct #builder_ident<'a> {
             columns: std::collections::HashMap<&'a str, &'a str>,
         }
     }
