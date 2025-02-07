@@ -17,11 +17,11 @@ jobs:
     - name: Run tests
       run: cargo test -j 2 && cargo test -j 2 --all-features
     - name: Publish derive package
-      run: cargo publish -j 2 -p polars-rows-iter-derive --dry-run 
+      run: cargo publish -j 2 -p polars-rows-iter-derive
       env:
         CARGO_REGISTRY_TOKEN: ${{ secrets.CRATES }}
     - name: Publish main package
-      run: cargo publish -j 2 -p polars-rows-iter --dry-run 
+      run: cargo publish -j 2 -p polars-rows-iter
       env:
         CARGO_REGISTRY_TOKEN: ${{ secrets.CRATES }}
         
